@@ -211,6 +211,20 @@ def test_url_from_scope() -> None:
     assert u.port == 80
 
 
+def test_url_from_scope_with_unknown_scheme() -> None:
+    u = URL(
+        scope={
+            "scheme": "ftp",
+            "server": ("example.org", 21),
+            "path": "/files",
+            "query_string": b"",
+            "headers": [],
+        }
+    )
+    assert u == "ftp://example.org:21/files"
+    assert u.port == 21
+
+
 def test_url_from_scope_with_delimiters_in_path() -> None:
     u = URL(scope={"path": "/a?b#c", "query_string": b"d=e", "headers": [(b"host", b"example.org")]})
     assert u == "http://example.org/a%3Fb%23c?d=e"

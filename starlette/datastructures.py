@@ -23,6 +23,8 @@ _KeyType = TypeVar("_KeyType")
 # that is, you can't do `Mapping[str, Animal]()["fido"] = Dog()`
 _CovariantValueType = TypeVar("_CovariantValueType", covariant=True)
 
+DEFAULT_PORTS = {"http": 80, "https": 443, "ws": 80, "wss": 443}
+
 
 class URL:
     def __init__(
@@ -52,7 +54,7 @@ class URL:
                 host, port = server
                 if ":" in host and not host.startswith("["):
                     host = f"[{host}]"
-                default_port = {"http": 80, "https": 443, "ws": 80, "wss": 443}[scheme]
+                default_port = DEFAULT_PORTS.get(scheme)
                 netloc = host if port == default_port else f"{host}:{port}"
             else:
                 netloc = None
